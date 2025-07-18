@@ -130,3 +130,83 @@ else if(command=='Update'|| command=='UPDATE'|| command=='update'){
     console.log(`Task with ${ID} updated successfully.`);
 
 }
+
+else if(command=='delete' || command=='Delete'|| command=='DELETE'){
+    const IDtoDelete=args[0];
+    if(!IDtoDelete){
+        console.log("Task ID not found");
+        process.exit();
+    }
+    let task=loadTasks();
+    let index=-1
+    for(let i=0;i<task.length;i++){
+        if(task[i].id==IDtoDelete){
+            index=i;
+            break;
+        }
+    }
+    if(index===-1){
+        console.log(`Task with ${IDtoDelete} not found`);
+    }
+    else{
+        const removedTasks=task.splice(index,1);
+        const deletedTask = removedTasks[0];
+        saveTasks(task);
+        console.log(`Deleted task: "${deletedTask.title}" ID: ${IDtoDelete}`);
+    }
+
+}
+
+else if(command=='mark-in-progress'||command=='Mark-in-Progress' || command=='Mark-in-progress'){
+    const taskid=args[0];
+
+    if(!taskid){
+        console.log("Task ID not found");
+        process.exit();
+    }
+
+    let task=loadTasks();
+    let found=false;
+    for (let i = 0; i < task.length; i++) {
+        if (task[i].id == taskid) { 
+            task[i].status = "in-progress";
+            task[i].updatedAt = new Date().toISOString();
+            found = true;
+            console.log("Status updated successfully");
+            break;
+        }
+    }
+    if (!found) {
+        console.log(`Task with ID ${taskid} not found`);
+    } 
+    else {
+        saveTasks(task);
+    }
+
+}
+
+else if(command=='mark-done'||command=='Mark-done'||command=='Mark-Done'){
+    const taskId=args[0];
+    if(!taskId){
+        console.log("Enter Task ID");
+        process.exit();
+    }
+    let task=loadTasks();
+    let found=false;
+    for (let i=0;i<task.length;i++){
+        if (task[i].id == taskId) { 
+            task[i].status = "Done done done";
+            task[i].updatedAt = new Date().toISOString();
+            found = true;
+            console.log("Status updated successfully");
+            break;
+        }
+    }
+    if (!found) {
+        console.log(`Task with ID ${taskid} not found`);
+    } 
+    else {
+        saveTasks(task);
+    }
+
+}
